@@ -1,4 +1,5 @@
 -- Script SQL para insertar datos de prueba en la base de datos MusicApp
+-- Ejecutar primero el script de inicializacion
 -- Este archivo se ejecuta después del script de inicialización
 
 -- Insertar solo usuario admin (sin username, con password)
@@ -6,7 +7,7 @@ INSERT INTO users (email, password) VALUES
     ('admin@musicapp.com', 'admin123')
 ON CONFLICT (email) DO NOTHING;
 
--- Insertar canciones basadas en tu JSON (con rutas corregidas a Flask backend)
+-- Insertar canciones basadas en tu JSON (con las rutas corregidas a Flask backend)
 INSERT INTO songs (title, artist, album, duration, file_path, cover_url, artist_name, artist_nickname, nationality) VALUES 
     ('Getting Over', 'David Guetta', 'One Love', 333, 'http://localhost:5000/assets/1_GettingOver_DavidGuetta.mp3', 
      'https://jenesaispop.com/wp-content/uploads/2009/09/guetta_onelove.jpg', 
