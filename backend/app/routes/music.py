@@ -7,7 +7,7 @@ import os
 
 music_bp = Blueprint('music', __name__)
 
-
+# Metodo GET
 @music_bp.route('/songs', methods=['GET'])
 def get_songs():
     """Get all songs"""
