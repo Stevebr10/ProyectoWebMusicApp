@@ -2,7 +2,7 @@ import os
 from werkzeug.utils import secure_filename
 from sqlalchemy import or_
 
-# Extensiones permitidas
+# Extensiones permitidas:
 class MusicService:
     ALLOWED_EXTENSIONS = {'mp3', 'wav', 'flac', 'ogg', 'm4a', 'aac'}
 
