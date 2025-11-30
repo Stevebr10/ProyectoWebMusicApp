@@ -1,0 +1,25 @@
+# Usamos una imagen ligera de Python
+FROM python:3.9-slim
+
+# Directorio de trabajo dentro del contenedor
+WORKDIR /app
+
+# Instalar dependencias del sistema necesarias para psycopg2 (driver de postgres)
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copiar requirements e instalar librerías Python
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiar todo el código del backend al contenedor
+COPY . .
+
+# Exponer el puerto 5000 (donde corre Flask)
+EXPOSE 5000
+
+# Comando para iniciar la app.
+# Usamos gunicorn con eventlet porque tienes SocketIO en tus requirements
+CMD ["gunicorn", "--worker-class", "eventlet", "-w", "1", "--bind", "0.0.0.0:5000", "main:app"]

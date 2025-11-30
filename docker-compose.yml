@@ -1,6 +1,23 @@
 version: '3.8'
 
 services:
+  backend:
+    build: ./backend
+    container_name: musicapp_backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://musicapp_user:musicapp_password@postgres:5432/musicapp
+      - FLASK_ENV=development
+      - UPLOAD_FOLDER=assets
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    networks:
+      - musicapp_network
   postgres:
     image: postgres:15-alpine
     container_name: musicapp_postgres
@@ -14,8 +31,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./database/init:/docker-entrypoint-initdb.d
-      - ./database/backups:/backups
+      - ./backend/database/init:/docker-entrypoint-initdb.d
+      - ./backend/database/backups:/backups
     networks:
       - musicapp_network
     healthcheck:
